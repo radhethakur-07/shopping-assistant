@@ -9,7 +9,7 @@
 
 (function () {
   // SET YOUR RENDER BACKEND URL HERE:
-  const RENDER_BACKEND_URL = "https://smartcart-backend.onrender.com";
+  const RENDER_BACKEND_URL = "https://shopping-assistant-14da.onrender.com";
 
   // Auto-detect local development vs deployed production environment
   const isLocal =
