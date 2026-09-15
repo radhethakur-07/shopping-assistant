@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping List — SmartCart Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+        <span><span class="smart">Smart</span>Cart</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="products.html" class="nav-link"><i class="fa-solid fa-store"></i> Products</a></li>
+        <li><a href="shopping-list.html" class="nav-link active"><i class="fa-solid fa-list-check"></i> Shopping List</a></li>
+        <li><a href="cart.html" class="nav-link"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="shopping-list.html" class="badge-btn list-badge-btn" title="Shopping List">
+          <i class="fa-solid fa-list-check"></i>
+          <span class="badge-count" id="header-list-count">0</span>
+        </a>
+        <a href="cart.html" class="badge-btn cart-badge-btn" title="View Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Cart</span>
+          <span class="badge-count" id="header-cart-count">0</span>
+        </a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Shopping List Main Content -->
+  <main class="section">
+    <div class="container" style="max-width: 960px;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--gray-900); letter-spacing: -0.02em;">
+          My Shopping List
+        </h1>
+        <p style="color: var(--gray-500); font-size: 1rem;">
+          Plan your grocery trips, check off purchased items, and get AI suggestions for missing staples.
+        </p>
+      </div>
+
+      <!-- Shopping Progress Card -->
+      <div class="shopping-list-progress-card">
+        <div class="progress-stats-row">
+          <div>
+            <h3><i class="fa-solid fa-list-check" style="color: #4ade80;"></i> Trip Progress</h3>
+            <span id="list-progress-count" style="font-size: 0.95rem; color: #94a3b8;">0 of 0 items checked off</span>
+          </div>
+          <div class="progress-percentage" id="list-progress-percentage">0%</div>
+        </div>
+        <div class="progress-track" style="height: 10px; background: rgba(255,255,255,0.15);">
+          <div class="progress-fill" id="list-progress-fill" style="width: 0%; background: #4ade80;"></div>
+        </div>
+      </div>
+
+      <!-- Quick Add Item Form -->
+      <div style="background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm);">
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-plus-circle" style="color: var(--primary);"></i> Quick Add Product
+        </h4>
+        <form id="quick-add-form" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <select id="quick-add-product-select" style="flex: 2; min-width: 220px; padding: 0.65rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--gray-300); outline: none; background: var(--white);" required>
+            <option value="">Loading products...</option>
+          </select>
+          <input type="number" id="quick-add-qty-input" min="1" max="99" value="1" style="width: 80px; padding: 0.65rem 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--gray-300); outline: none; text-align: center;" title="Quantity" />
+          <button type="submit" class="btn-primary" style="width: auto; padding: 0.65rem 1.25rem;">
+            <i class="fa-solid fa-plus"></i> Add to List
+          </button>
+        </form>
+      </div>
+
+      <!-- Shopping List Items Container -->
+      <div class="shopping-list-container">
+        <div class="cart-header-actions">
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--gray-900);">Checklist Items</h2>
+          <button class="btn-outline-danger" onclick="ShoppingListController.clearAll()" title="Clear Shopping List">
+            <i class="fa-solid fa-trash-can"></i> Clear List
+          </button>
+        </div>
+
+        <div id="shopping-list-items">
+          <div class="skeleton-card" style="height: 80px; margin-bottom: 0.75rem;"></div>
+          <div class="skeleton-card" style="height: 80px;"></div>
+        </div>
+      </div>
+
+      <!-- Contextual Suggestions for Shopping List -->
+      <div class="recommendation-section" style="margin-top: 3.5rem;">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 id="list-rec-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent);"></i> Suggested For Your Shopping List</h2>
+            <p>Smart complementary staples recommended to complete your shopping list</p>
+          </div>
+        </div>
+
+        <div class="product-grid" id="list-recommendations-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3><span style="color: var(--primary);">Smart</span>Cart</h3>
+          <p>Your intelligent grocery shopping assistant with smart checklist progress tracking.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">All Products</a></li>
+            <li><a href="shopping-list.html">Shopping List</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Pantry Categories</h4>
+          <ul class="footer-links">
+            <li><a href="products.html?category=Grains">Grains & Rice</a></li>
+            <li><a href="products.html?category=Vegetables">Fresh Vegetables</a></li>
+            <li><a href="products.html?category=Personal%20Care">Personal Care</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Developer Links</h4>
+          <ul class="footer-links">
+            <li><a href="http://127.0.0.1:8000/docs" target="_blank" rel="noopener">Interactive OpenAPI</a></li>
+            <li><a href="http://127.0.0.1:8000/health" target="_blank" rel="noopener">API Health Check</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; SmartCart Project. Production Ready for GitHub & Render Deployment.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/recommendations.js"></script>
+  <script src="js/shopping-list.js"></script>
+</body>
+</html>

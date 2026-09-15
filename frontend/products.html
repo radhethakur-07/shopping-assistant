@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Products — SmartCart Grocery Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+        <span><span class="smart">Smart</span>Cart</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="products.html" class="nav-link active"><i class="fa-solid fa-store"></i> Products</a></li>
+        <li><a href="shopping-list.html" class="nav-link"><i class="fa-solid fa-list-check"></i> Shopping List</a></li>
+        <li><a href="cart.html" class="nav-link"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="shopping-list.html" class="badge-btn list-badge-btn" title="Shopping List">
+          <i class="fa-solid fa-list-check"></i>
+          <span class="badge-count" id="header-list-count">0</span>
+        </a>
+        <a href="cart.html" class="badge-btn cart-badge-btn" title="View Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Cart</span>
+          <span class="badge-count" id="header-cart-count">0</span>
+        </a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Products Main Content -->
+  <main class="section">
+    <div class="container">
+      <!-- Catalog Header -->
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--gray-900); letter-spacing: -0.02em;">
+          Grocery Catalog
+        </h1>
+        <p style="color: var(--gray-500); font-size: 1rem;">
+          Explore all fresh groceries, organic produce, dairy, bakery, snacks, and household essentials.
+        </p>
+      </div>
+
+      <!-- Search & Controls Bar -->
+      <div style="background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <!-- Search Input -->
+          <div style="position: relative; flex: 1; min-width: 260px;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i>
+            <input
+              type="text"
+              id="product-search-input"
+              placeholder="Search by product name, brand, or category..."
+              style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--gray-300); outline: none; transition: border var(--transition-fast);"
+              onfocus="this.style.borderColor='var(--primary)'"
+              onblur="this.style.borderColor='var(--gray-300)'"
+            />
+          </div>
+
+          <!-- Sort Select -->
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <label for="product-sort-select" style="font-size: 0.88rem; font-weight: 600; color: var(--gray-600); white-space: nowrap;">
+              <i class="fa-solid fa-arrow-down-short-wide"></i> Sort By:
+            </label>
+            <select
+              id="product-sort-select"
+              style="padding: 0.65rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--gray-300); background: var(--white); font-weight: 600; color: var(--gray-700); cursor: pointer; outline: none;"
+            >
+              <option value="default">Featured / Default</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating-desc">Highest Rated</option>
+              <option value="name-asc">Name: A to Z</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Horizontal Filter Scrollbar -->
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-100);">
+          <div class="category-filter-bar" id="category-filter-bar">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Count & Grid Info -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <span id="product-count-display" style="font-weight: 600; color: var(--gray-600); font-size: 0.95rem;">Loading products...</span>
+      </div>
+
+      <!-- 4-Column Responsive Grid -->
+      <div class="product-grid" id="products-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3><span style="color: var(--primary);">Smart</span>Cart</h3>
+          <p>Your intelligent grocery shopping assistant with multi-factor recommendation engine.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">All Products</a></li>
+            <li><a href="shopping-list.html">Shopping List</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul class="footer-links">
+            <li><a href="products.html?category=Fruits">Fresh Fruits</a></li>
+            <li><a href="products.html?category=Vegetables">Vegetables</a></li>
+            <li><a href="products.html?category=Dairy">Dairy & Eggs</a></li>
+            <li><a href="products.html?category=Grains">Grains & Pantry</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Developer Links</h4>
+          <ul class="footer-links">
+            <li><a href="http://127.0.0.1:8000/docs" target="_blank" rel="noopener">FastAPI Swagger UI</a></li>
+            <li><a href="http://127.0.0.1:8000/redoc" target="_blank" rel="noopener">ReDoc Specs</a></li>
+            <li><a href="http://127.0.0.1:8000/health" target="_blank" rel="noopener">Health Check</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; SmartCart Project. Production Ready for GitHub & Render Deployment.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>
