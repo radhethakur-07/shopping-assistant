@@ -160,6 +160,24 @@
     </div>
   </section>
 
+  <!-- AI Recipe-to-Cart Assistant Studio -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><i class="fa-solid fa-utensils" style="color: var(--primary);"></i> AI Recipe-to-Cart Studio</h2>
+          <p>Choose a recipe bundle to automatically detect missing ingredients and add them to your cart in 1-Click</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;" id="home-recipe-studio-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Feature Highlights Section -->
   <section class="section" style="background: var(--white); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200);">
     <div class="container">
@@ -235,6 +253,7 @@
   <script src="js/api.js"></script>
   <script src="js/app.js"></script>
   <script src="js/recommendations.js"></script>
+  <script src="js/smart-assistant.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // 1. Load smart recommendations
@@ -245,11 +264,15 @@
         titleId: "home-rec-title"
       });
 
-      // 2. Load featured products (top rated)
+      // 2. Load Recipe-to-Cart Studio
+      if (window.SmartAssistant) {
+        SmartAssistant.loadRecipeStudio("home-recipe-studio-grid");
+      }
+
+      // 3. Load featured products (top rated)
       const featuredContainer = document.getElementById("home-featured-grid");
       try {
         const products = await API.getProducts({ limit: 8 });
-        // Sort by rating descending
         const topRated = products.sort((a, b) => b.rating - a.rating).slice(0, 4);
         featuredContainer.innerHTML = "";
         topRated.forEach((product) => {

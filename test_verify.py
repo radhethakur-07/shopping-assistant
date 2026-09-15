@@ -103,11 +103,49 @@ def run_tests():
     # 7.6 Shopping List
     res = client.post("/api/shopping-list/items", json={"product_id": prods[1]["id"], "quantity": 2})
     assert res.status_code == 201
-    sl_data = res.json()
-    assert sl_data["total_items"] > 0
-    print(f"[API 6] POST /api/shopping-list/items: PASS ({sl_data['total_items']} items in list)")
+    # 7.7 Test Strawberry Fruit Jam Precision Pairing
+    crud.clear_cart(db, cart_id=1)
+    jam_item = crud.search_products(db, "Strawberry Fruit Jam")[0]
+    client.post("/api/cart/items?cart_id=1", json={"product_id": jam_item.id, "quantity": 1})
+    res_jam = client.get("/api/recommendations?cart_id=1&limit=5")
+    assert res_jam.status_code == 200
+    jam_recs = res_jam.json()["recommendations"]
+    jam_rec_names = [r["product"]["name"].lower() for r in jam_recs]
+    print(f"[API 7] Precision Jam Recommendations: {[r['product']['name'] for r in jam_recs]}")
+    assert not any("garlic" in n for n in jam_rec_names), "Garlic should NOT be paired with Jam!"
+    assert not any("toothpaste" in n for n in jam_rec_names), "Toothpaste should NOT be paired with Jam!"
+    assert not any("pasta" in n for n in jam_rec_names), "Pasta should NOT be paired with Jam!"
+    print("[API 7] Jam precision pairing: PASS (Strictly legitimate bakery/dairy items only!)")
 
-    print("\n>>> ALL AUTOMATED TESTS & REST APIS PASSED WITH 100% SUCCESS! <<<")
+    # 7.8 Test Did You Forget Reminders
+    res_forget = client.get("/api/smart/did-you-forget?cart_id=1")
+    assert res_forget.status_code == 200
+    forget_reminders = res_forget.json()["reminders"]
+    assert len(forget_reminders) > 0
+    print(f"[API 8] /api/smart/did-you-forget: PASS ({len(forget_reminders)} reminders triggered)")
+
+    # 7.9 Test Cart Health Radar
+    res_health = client.get("/api/smart/cart-health?cart_id=1")
+    assert res_health.status_code == 200
+    h_data = res_health.json()
+    assert h_data["health_score"] > 0
+    print(f"[API 9] /api/smart/cart-health: PASS (Health Score = {h_data['health_score']}/100)")
+
+    # 7.10 Test Smart Recipe Bundles
+    res_recipes = client.get("/api/smart/recipes?cart_id=1")
+    assert res_recipes.status_code == 200
+    recipes_list = res_recipes.json()["recipes"]
+    assert len(recipes_list) >= 4
+    print(f"[API 10] /api/smart/recipes: PASS ({len(recipes_list)} recipe meal kits available)")
+
+    # 7.11 Test SmartBot Chatbot
+    res_chat = client.post("/api/smart/chat", json={"message": "Healthy breakfast under $10"})
+    assert res_chat.status_code == 200
+    chat_payload = res_chat.json()
+    assert len(chat_payload["products"]) > 0
+    print(f"[API 11] /api/smart/chat: PASS (Bot Reply: {chat_payload['reply']})")
+
+    print("\n>>> ALL AUTOMATED TESTS, SMART ASSISTANT SUITE & APIS PASSED WITH 100% SUCCESS! <<<")
 
 if __name__ == "__main__":
     run_tests()

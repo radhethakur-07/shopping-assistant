@@ -76,6 +76,12 @@
       // Update header badges
       updateHeaderBadges();
 
+      // Load Smart Assistant Did-You-Forget and Health Radar
+      if (window.SmartAssistant) {
+        SmartAssistant.loadDidYouForget("did-you-forget-container");
+        SmartAssistant.loadCartHealthRadar("cart-health-radar");
+      }
+
       // Load Contextual Recommendations based on cart items
       Recommendations.load({
         containerId: "cart-recommendations-grid",

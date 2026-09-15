@@ -132,6 +132,19 @@ async function handleQuickAddToList(productId, productName) {
   }
 }
 
+// Global Image Error Fallback Handler to prevent any broken image display
+document.addEventListener(
+  "error",
+  function (e) {
+    if (e.target.tagName && e.target.tagName.toLowerCase() === "img") {
+      e.target.onerror = null;
+      e.target.src =
+        "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80";
+    }
+  },
+  true
+);
+
 // Global initialization
 document.addEventListener("DOMContentLoaded", () => {
   // Mobile Nav Toggle

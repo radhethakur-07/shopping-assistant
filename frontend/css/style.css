@@ -1172,3 +1172,469 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Smart Assistant Components: Chatbot, Recipe Studio, Health Radar & Reminders
+   -------------------------------------------------------------------------- */
+
+/* 1. Floating SmartBot */
+#smartbot-widget {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+}
+
+.smartbot-toggle-btn {
+  background: linear-gradient(135deg, #16a34a, #059669);
+  color: var(--white);
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 10px 25px rgba(22, 163, 74, 0.4);
+  transition: all var(--transition-normal);
+}
+
+.smartbot-toggle-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(22, 163, 74, 0.5);
+}
+
+.smartbot-window {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 360px;
+  max-width: calc(100vw - 4rem);
+  height: 480px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+  z-index: 1000;
+}
+
+.smartbot-window.hidden {
+  display: none;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.smartbot-header {
+  background: linear-gradient(135deg, #064e3b, #047857);
+  color: var(--white);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.smartbot-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.smartbot-avatar {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.smartbot-header h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.smartbot-header span {
+  font-size: 0.72rem;
+  color: #a7f3d0;
+}
+
+.smartbot-close-btn {
+  color: var(--white);
+  font-size: 1.1rem;
+  padding: 0.3rem;
+  opacity: 0.8;
+}
+
+.smartbot-close-btn:hover {
+  opacity: 1;
+}
+
+.smartbot-messages {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--gray-50);
+}
+
+.smartbot-msg {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  max-width: 85%;
+}
+
+.smartbot-msg.bot {
+  background: var(--white);
+  color: var(--gray-800);
+  border: 1px solid var(--gray-200);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+
+.smartbot-msg.user {
+  background: var(--primary);
+  color: var(--white);
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+.smartbot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.smartbot-chip {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  transition: all var(--transition-fast);
+}
+
+.smartbot-chip:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.smartbot-product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.smartbot-product-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--gray-50);
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+}
+
+.smartbot-product-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.smartbot-product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.smartbot-product-info strong {
+  font-size: 0.8rem;
+  color: var(--gray-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.smartbot-product-info span {
+  font-size: 0.72rem;
+  color: var(--gray-500);
+}
+
+.smartbot-input-form {
+  padding: 0.75rem;
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.smartbot-input-form input {
+  flex: 1;
+  border: 1px solid var(--gray-300);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-full);
+  outline: none;
+  font-size: 0.88rem;
+}
+
+.smartbot-input-form input:focus {
+  border-color: var(--primary);
+}
+
+.smartbot-input-form button {
+  background: var(--primary);
+  color: var(--white);
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+/* 2. Recipe Studio Cards */
+.recipe-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.recipe-img-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 55%;
+  background: var(--gray-100);
+}
+
+.recipe-img-wrap img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recipe-cat-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--white);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.recipe-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.recipe-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.recipe-status-pill {
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.72rem;
+  margin-left: auto;
+}
+
+.recipe-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--gray-900);
+  margin-bottom: 0.35rem;
+}
+
+.recipe-desc {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  line-height: 1.4;
+  margin-bottom: 1.25rem;
+}
+
+.recipe-bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--gray-100);
+}
+
+/* 3. Cart Health Radar */
+.health-radar-card {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.health-radar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.health-score-circle {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.health-score-num {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.health-score-label {
+  font-size: 0.65rem;
+  color: var(--gray-500);
+  font-weight: 700;
+}
+
+.health-radar-bars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.health-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.25rem;
+}
+
+.health-bar-track {
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.health-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.health-radar-tip {
+  background: var(--white);
+  border-left: 3px solid var(--accent);
+  padding: 0.6rem 0.85rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.82rem;
+  color: var(--gray-700);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 4. Did You Forget Reminders */
+.did-you-forget-banner {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.forget-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.forget-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.forget-left strong {
+  font-size: 0.95rem;
+  color: #1e3a8a;
+  display: block;
+}
+
+.forget-left p {
+  font-size: 0.85rem;
+  color: #3b82f6;
+}
+
+.forget-add-btn {
+  white-space: nowrap;
+  width: auto;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+

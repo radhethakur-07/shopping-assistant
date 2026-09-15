@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .database import engine, Base, SessionLocal
-from .routers import products, cart, shopping_list, recommendations
+from .routers import products, cart, shopping_list, recommendations, smart
 from seed import seed_database
 
 
@@ -109,6 +109,7 @@ app.include_router(products.router, prefix="/api")
 app.include_router(cart.router, prefix="/api")
 app.include_router(shopping_list.router, prefix="/api")
 app.include_router(recommendations.router, prefix="/api")
+app.include_router(smart.router, prefix="/api")
 
 
 # -----------------------------------------------------------------------------

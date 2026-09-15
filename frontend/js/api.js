@@ -162,6 +162,34 @@ const API = (function () {
     },
 
     // ------------------------------------------------------------------------
+    // Smart Assistant Endpoints
+    // ------------------------------------------------------------------------
+    async getSmartRecipes(cartId = 1) {
+      return request(`/api/smart/recipes?cart_id=${cartId}`);
+    },
+
+    async addRecipeToCart(recipeId, cartId = 1) {
+      return request(`/api/smart/recipes/${recipeId}/add-to-cart?cart_id=${cartId}`, {
+        method: "POST",
+      });
+    },
+
+    async getCartHealth(cartId = 1) {
+      return request(`/api/smart/cart-health?cart_id=${cartId}`);
+    },
+
+    async getDidYouForget(cartId = 1) {
+      return request(`/api/smart/did-you-forget?cart_id=${cartId}`);
+    },
+
+    async sendChatMessage(message) {
+      return request("/api/smart/chat", {
+        method: "POST",
+        body: JSON.stringify({ message }),
+      });
+    },
+
+    // ------------------------------------------------------------------------
     // System Health Endpoint
     // ------------------------------------------------------------------------
     async getHealth() {
